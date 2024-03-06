@@ -1,0 +1,73 @@
+{
+  "name": "ecom",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "org",
+  "sourceRoot": "apps/ecom/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/ecom",
+        "index": "apps/ecom/src/index.html",
+        "browser": "apps/ecom/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/ecom/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": ["apps/ecom/src/favicon.ico", "apps/ecom/src/assets"],
+        "styles": ["apps/ecom/src/styles.scss"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "ecom:build:production"
+        },
+        "development": {
+          "buildTarget": "ecom:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "ecom:build"
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "ecom:build",
+        "staticFilePath": "dist/apps/ecom/browser"
+      }
+    }
+  }
+}
